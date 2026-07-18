@@ -1,4 +1,11 @@
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+// Runtime config (window.__ENV__) is written by the container entrypoint at
+// startup, so one built image can target any backend. Falls back to the
+// build-time env var for local `npm run dev`, then to localhost.
+const runtimeEnv = typeof window !== 'undefined' ? window.__ENV__ : undefined;
+const BASE_URL =
+  runtimeEnv?.VITE_API_BASE_URL ||
+  import.meta.env.VITE_API_BASE_URL ||
+  'http://localhost:3000';
 
 export const CATEGORIES = ['concert', 'exhibition', 'workshop', 'seminar', 'sports', 'other'];
 export const STATUSES = ['draft', 'published', 'cancelled'];
